@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Для моей Гениальной ❤️ | LEGENDARY FIXED VERSION</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        :root { --bg-color: #ff9a9e; --btn-color: #ff4757; }
+        
+        body {
+            display: flex; justify-content: center; align-items: center; height: 100vh;
+            background: var(--bg-color); font-family: 'Arial', sans-serif; margin: 0;
+            overflow: hidden; transition: background 1s ease; position: relative;
+            touch-action: none;
+        }
+
+        /* Тряска карточки */
+        .shake { animation: shakeAnim 0.3s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shakeAnim {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
+        }
+
+        /* Анимация "Лизание" */
+        @keyframes lick {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.2, 0.8) translateY(10px); background: #ff78ae; border-radius: 20% 20% 80% 80%; }
+            50% { transform: scale(1.1, 0.9) translateY(15px); box-shadow: 0 15px 30px rgba(255, 120, 174, 0.7); }
+            100% { transform: scale(1); }
+        }
+        .lick-anim { animation: lick 0.5s infinite ease-in-out !important; }
+
+        /* --- СМЫВ В УНИТАЗ --- */
+        @keyframes flushDown {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: scale(0) rotate(1080deg); opacity: 0; }
+        }
+        @keyframes flushUp {
+            0% { transform: scale(0) rotate(-1080deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        .flushing { animation: flushDown 1.2s cubic-bezier(0.5, 0, 0.5, 1) forwards !important; }
+        .flushing-restore { animation: flushUp 0.8s cubic-bezier(0.5, 0, 0.5, 1) forwards !important; }
+
+        /* Поцелуи на весь экран */
+        #kissOverlay {
+            position: fixed; top:0; left:0; width:100%; height:100%; 
+            display:none; pointer-events:none; z-index:1000;
+        }
+        .kiss-mark { 
+            position: absolute; font-size: 80px; animation: kissFade 1.2s forwards; opacity: 0; 
+        }
+        @keyframes kissFade { 
+            0% { opacity:0; transform: scale(0.2) rotate(-20deg); } 
+            50% { opacity:1; transform: scale(1.3) rotate(10deg); } 
+            100% { opacity:0; transform: scale(2.5) rotate(0deg); } 
+        }
+
+        /* Alien Alert */
+        #alienAlert {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: #000; display: none; z-index: 500;
+            flex-direction: column; justify-content: center; align-items: center;
+        }
+        .alert-text { 
+            color: #ff0000; font-size: 60px; font-weight: bold; 
+            text-shadow: 0 0 25px #ff0000; animation: blink 0.4s infinite; 
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.1; } }
+
+        /* Сцена похищения НЛО */
+        #ufoScene { position: absolute; width: 100%; height: 100%; display: none; overflow: hidden; }
+        .ufo { position: absolute; top: -200px; left: 50%; transform: translateX(-50%); font-size: 130px; z-index: 600; }
+        .beam { 
+            position: absolute; top: 130px; left: 50%; transform: translateX(-50%); 
+            width: 200px; height: 0; background: linear-gradient(to bottom, rgba(0,255,0,0.6), transparent);
+            box-shadow: 0 0 100px rgba(0, 255, 0, 0.7); transition: height 0.8s ease-out; 
+        }
+        .abductee { position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%); font-size: 70px; transition: bottom 1.5s ease-in, opacity 1s; }
+
+        /* Основная карточка */
+        .background-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('Ayako.jpg'); background-repeat: no-repeat;
+            background-size: cover; background-position: center 40%; 
+            opacity: 0; z-index: -1; transition: opacity 1.5s ease;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.9); padding: 40px; border-radius: 40px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2); text-align: center;
+            width: 85%; max-width: 500px; z-index: 10; backdrop-filter: blur(20px);
+        }
+        h2 { min-height: 150px; font-size: 26px; line-height: 1.4; color: #333; }
+        del { color: #ff4757; text-decoration-style: double; }
+
+        #mainBtn {
+            background: var(--btn-color); color: white; border: none; padding: 22px 45px;
+            border-radius: 70px; font-size: 20px; font-weight: bold; cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            position: relative; z-index: 20; box-shadow: 0 10px 25px rgba(255, 71, 87, 0.3);
+        }
+
+        /* --- ИГРА --- */
+        #gameScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 50; overflow: hidden; color: #fff; }
+        
+        #gameBackground { 
+            position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%) scale(0.65); 
+            width: 300px; height: 450px; z-index: 5;
+        }
+        .alien-body { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 320px; background: #2ecc71; border-radius: 60px 60px 20px 20px; }
+        .alien-eye { position: absolute; top: 40px; width: 35px; height: 45px; background: #000; border-radius: 50%; }
+        .eye-l { left: 25px; transform: rotate(15deg); } .eye-r { right: 25px; transform: rotate(-15deg); }
+        .alien-arms-hug { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); width: 200px; height: 80px; border: 18px solid #27ae60; border-top: none; border-radius: 0 0 60px 60px; z-index: 3; }
+        .breathing { animation: breath 3s ease-in-out infinite; transform-origin: bottom center; }
+        @keyframes breath { 0%, 100% { transform: translateX(-50%) scale(0.6); } 50% { transform: translateX(-50%) scale(0.68); } }
+
+        #player { position: absolute; bottom: 30px; width: 75px; height: 75px; background: #f1c40f; border-radius: 50%; border: 4px solid #fff; z-index: 60; transform: translateX(-50%); }
+        .falling-object { position: absolute; font-size: 45px; z-index: 55; }
+        #scoreBoard { position: absolute; top: 30px; width: 100%; text-align: center; font-size: 28px; z-index: 100; font-weight: bold; text-shadow: 0 2px 10px #000; }
+
+        /* --- СЦЕНА К ТЕЛЕВИЗОРУ --- */
+        #retroScene { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #111; display: none; z-index: 150; }
+        .tv-set { position: absolute; right: 10%; bottom: 20%; width: 240px; height: 180px; background: #333; border: 12px solid #444; border-radius: 15px; }
+        .tv-screen { width: 100%; height: 100%; background: #000; position: relative; overflow: hidden; }
+        .tv-glow { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(100,200,255,0.4), transparent); animation: tvFlicker 0.1s infinite; }
+        @keyframes tvFlicker { 0% { opacity: 0.7; } 100% { opacity: 1; } }
+        
+        #walkingChars { position: absolute; bottom: 20%; left: -20%; transform: scale(0.6); display: flex; align-items: flex-end; }
+        .walking-anim { animation: stepMove 0.6s infinite; }
+        @keyframes stepMove { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* Финальное видео */
+        #videoContainer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 200; }
+        video { width: 100%; height: 100%; object-fit: contain; }
+
+        /* Титры */
+        #credits { 
+            position: fixed; top: 100%; left: 0; width: 100%; 
+            display: none; flex-direction: column; align-items: center; 
+            z-index: 300; color: #fff; text-align: center; font-family: 'Georgia', serif;
+            pointer-events: none;
+        }
+        .credit-text { width: 85%; max-width: 900px; margin-bottom: 80px; line-height: 1.8; font-size: 32px; text-shadow: 2px 2px 15px rgba(0,0,0,0.8); }
+        .highlight { color: #ff9a9e; font-weight: bold; font-size: 42px; text-transform: uppercase; }
+        .fuck { color: #0fab38; font-weight: bold; font-size: 50px; text-transform: uppercase; }
+        @keyframes creditsMove { 0% { transform: translateY(0); } 100% { transform: translateY(-8500px); } }
+    </style>
+</head>
+<body>
+
+    <audio id="soundScore" src="score.mp3"></audio>
+    <audio id="soundHit" src="hit.mp3"></audio>
+    <audio id="soundToilet" src="toilet.mp3"></audio>
+
+    <div id="kissOverlay"></div>
+    <div id="alienAlert">
+        <div class="alert-text">Alien alert🛸</div>
+        <div id="ufoScene">
+            <div class="ufo">🛸</div>
+            <div class="beam" id="ufoBeam"></div>
+            <div class="abductee" id="abducteeBoy">👦🌹</div>
+        </div>
+    </div>
+
+    <div class="background-overlay" id="bgOverlay"></div>
+
+    <div class="card" id="mainCard">
+        <h2 id="text">Нажми, чтобы узнать правду</h2>
+        <div id="btnContainer" style="position: relative; height: 75px;">
+            <button id="mainBtn" onclick="doMagic()">ЖМИ СЮДА</button>
+        </div>
+    </div>
+
+    <div id="gameScreen">
+        <div id="scoreBoard">🌹 РОЗОЧКИ: <span id="score">0</span> / 15</div>
+        <div id="gameBackground" class="breathing">
+            <div class="alien-body">
+                <div class="alien-eye eye-l"></div>
+                <div class="alien-eye eye-r"></div>
+            </div>
+            <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 60px;">👦</div>
+            <div class="alien-arms-hug"></div>
+        </div>
+        <div id="player"></div>
+    </div>
+
+    <div id="retroScene">
+        <div id="walkingChars">
+            <div class="alien-body" style="position:relative; left:0;"><div class="alien-eye eye-l"></div><div class="alien-eye eye-r"></div></div>
+            <div style="font-size: 90px; margin-left: -50px; z-index: 4;">👦</div>
+        </div>
+        <div class="tv-set">
+            <div class="tv-screen"><div class="tv-glow"></div></div>
+        </div>
+    </div>
+
+    <div id="videoContainer">
+        <video id="finishVideo" playsinline>
+            <source src="finish.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div id="credits">
+        <div class="credit-text highlight">Аяжан туған күніңмен ботам😽</div>
+        <div class="credit-text">надеюсь ты довольна своей жизнью ведь у тебя есть Марсик, Кися, твоя семья и подруги как Айнара и наверное Ақбота и такой прекрасный бывчый как АНЧОус🌚.</div>
+        <div class="credit-text">Бірақта сен ең <span class="highlight">Pretty</span> и ең <span class="highlight">Gorgeous Incredible Fantastic, Unbelievable, Phenomenal, Mind-blowing, Breathtaking, Spectacular </span> <span class="fuck">motherfucker gadamn nigga tumba yumba ninja turtle</span> любимка для всех нас и ты лучшее что происходило со мной нига😼😽😽😽😽😽.</div>
+        <div class="credit-text" id="spamContainer" style="font-size: 22px; color: #ff4757;"></div>
+    </div>
+
+    <script>
+        const wishes = [
+            "Дурстап бассай😡", 
+            "Дурстап бас дим🤬", 
+            "😒", 
+            "Аягындагы саусакпен лучше давай🤔", 
+            "лан последний раз", 
+            "Знаешь?", 
+            "Твоя улыбка ярче чем iPhone 17 Pro Max и S25 Ultra", 
+            "Ты единственная, с кем я бы посрал напротив сидя🚽🧻", 
+            "С днём рождения ту, кто терпит ревность дауна! ❤️", 
+            "Даже ChatGPT в шоке от твоей тупости !", 
+            "Сайт говно и вообще нулс беседа говвно", 
+            "кет е блять"
+        ];
+
+        let idx = 0;
+        let isTyping = false;
+        let teleCount = 0;
+
+        async function doMagic() {
+            if (isTyping) return;
+            const btn = document.getElementById('mainBtn');
+            const textEl = document.getElementById('text');
+            const card = document.getElementById('mainCard');
+
+            card.classList.remove('shake');
+            void card.offsetWidth;
+            card.classList.add('shake');
+
+            // ТЕЛЕПОРТАЦИЯ
+            if (idx === 6 && teleCount < 2) {
+                teleCount++;
+                btn.style.position = "fixed";
+                btn.style.left = Math.random() * 60 + 20 + "%";
+                btn.style.top = Math.random() * 60 + 20 + "%";
+                return;
+            } else if (idx === 6 && teleCount === 2) {
+                btn.style.position = "relative";
+                btn.style.left = "0"; btn.style.top = "0";
+                teleCount = 3;
+            }
+
+            if (idx >= wishes.length) {
+                startUFO();
+                return;
+            }
+
+            // --- ЭФФЕКТ СМЫВА В УНИТАЗ ---
+            if (idx === 8) {
+                isTyping = true;
+                card.classList.add('flushing');
+                document.getElementById('soundToilet').play();
+                await new Promise(r => setTimeout(r, 1200)); // Ждем пока закрутится и исчезнет
+                card.classList.remove('flushing');
+                card.classList.add('flushing-restore');
+                setTimeout(() => card.classList.remove('flushing-restore'), 1000); // Очистка класса
+                isTyping = false;
+            }
+
+            btn.className = ""; btn.innerText = "ЖМИ СЮДА";
+            document.body.style.background = ["#ff9a9e", "#a29bfe", "#fab1a0", "#81ecec", "#74b9ff"][idx % 5];
+
+            if (wishes[idx] === "😒") btn.innerText = "...";
+            if (wishes[idx].includes("саусакпен")) { btn.innerText = "👅"; btn.classList.add('lick-anim'); }
+            if (wishes[idx] === "лан последний раз") btn.innerText = "ой...";
+            if (wishes[idx] === "Знаешь?") btn.innerText = "нз";
+            if (idx === 7) btn.innerText = "кетчей 💃"; // Установка кнопки для смыва
+            if (idx === 8) btn.innerText = "👎🤡";
+            if (idx === 10) btn.innerText = "пошёл нахуй Аният";
+            if (idx === 11) btn.innerText = "хорошо милый🙇‍♀️😽";
+
+            let current = wishes[idx];
+            isTyping = true;
+
+            if (current.includes("тупости")) {
+                textEl.innerHTML = "Даже ChatGPT в шоке от твоей тупости !";
+                await new Promise(r => setTimeout(r, 1000));
+                textEl.innerHTML = "Даже ChatGPT в шоке от твоей <del>тупости !</del>";
+                await new Promise(r => setTimeout(r, 800));
+                textEl.innerHTML = "Даже ChatGPT в шоке от твоей ГЕНИАЛЬНОСТИ 🥰";
+            } else {
+                textEl.innerHTML = "";
+                for (let char of current) { textEl.innerHTML += char; await new Promise(r => setTimeout(r, 45)); }
+            }
+
+            // --- ДОБАВЛЕНИЕ КАРТИНОК НОГ ---
+            if (current.includes("саусакпен")) {
+                const footImgStyle = 'height: 45px; border-radius: 10px; vertical-align: middle; margin: 0 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);';
+                textEl.innerHTML = `<img src="foot.jpg" style="${footImgStyle}">` + 
+                                   textEl.innerHTML + 
+                                   `<img src="foot.jpg" style="${footImgStyle}">`;
+            }
+
+            if (idx === 11) triggerKisses();
+
+            isTyping = false;
+            idx++;
+        }
+
+        function triggerKisses() {
+            const overlay = document.getElementById('kissOverlay');
+            overlay.style.display = 'block';
+            for(let k=0; k<15; k++) {
+                setTimeout(() => {
+                    const kiss = document.createElement('div');
+                    kiss.className = 'kiss-mark'; kiss.innerHTML = '💋';
+                    kiss.style.left = Math.random()*85 + 5 + '%';
+                    kiss.style.top = Math.random()*85 + 5 + '%';
+                    overlay.appendChild(kiss);
+                }, k * 120);
+            }
+        }
+
+        // --- ИСПРАВЛЕННЫЙ UFO БЛОК ---
+        function startUFO() {
+            document.getElementById('mainCard').style.display = 'none';
+            document.getElementById('alienAlert').style.display = 'flex';
+            
+            setTimeout(() => {
+                const ufoScene = document.getElementById('ufoScene');
+                ufoScene.style.display = 'block';
+                const ufo = document.querySelector('.ufo');
+                const beam = document.getElementById('ufoBeam');
+                const boy = document.getElementById('abducteeBoy');
+
+                // 1. УФО прилетает
+                ufo.animate([{ top: '-200px' }, { top: '70px' }], { duration: 1500, fill: 'forwards' }).onfinish = () => {
+                    // 2. Луч появляется
+                    beam.style.height = '450px';
+                    setTimeout(() => {
+                        // 3. Мальчик поднимается
+                        boy.style.bottom = "450px"; 
+                        boy.style.opacity = "0";
+                        setTimeout(() => {
+                            // 4. Луч исчезает
+                            beam.style.height = '0';
+                            setTimeout(() => {
+                                // 5. УФО улетает и запускает игру
+                                ufo.animate([{ top: '70px', left: '50%' }, { top: '-250px', left: '150%' }], { duration: 1000, fill: 'forwards' }).onfinish = initGame;
+                            }, 500);
+                        }, 1500);
+                    }, 800);
+                };
+            }, 2000);
+        }
+
+        let score = 0;
+        function initGame() {
+            document.getElementById('alienAlert').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            const player = document.getElementById('player');
+            
+            const moveHandler = (e) => {
+                let x = (e.touches) ? e.touches[0].clientX : e.clientX;
+                player.style.left = x + 'px';
+            };
+            document.addEventListener('mousemove', moveHandler);
+            document.addEventListener('touchmove', moveHandler);
+
+            let spawner = setInterval(() => {
+                const o = document.createElement('div');
+                o.className = 'falling-object';
+                const good = Math.random() > 0.35;
+                o.innerHTML = good ? '🌹' : '💩';
+                o.dataset.type = good ? 'good' : 'bad';
+                o.style.left = Math.random() * (window.innerWidth - 60) + 'px';
+                o.style.top = '-60px';
+                document.getElementById('gameScreen').appendChild(o);
+                o.animate([{top: '-60px'}, {top: '110vh'}], {duration: 3800}).onfinish = () => o.remove();
+            }, 750);
+
+            let engine = setInterval(() => {
+                const p = player.getBoundingClientRect();
+                document.querySelectorAll('.falling-object').forEach(o => {
+                    const r = o.getBoundingClientRect();
+                    if (r.bottom > p.top && r.left < p.right && r.right > p.left && r.top < p.bottom) {
+                        if (o.dataset.type === 'good') {
+                            score++; document.getElementById('score').innerText = score;
+                            document.getElementById('soundScore').play(); o.remove();
+                            if (score >= 15) { clearInterval(spawner); clearInterval(engine); runRetro(); }
+                        } else {
+                            score = 0; document.getElementById('score').innerText = score;
+                            document.getElementById('soundHit').play();
+                            document.querySelectorAll('.falling-object').forEach(el => el.remove());
+                        }
+                    }
+                });
+            }, 50);
+        }
+
+        function runRetro() {
+            document.getElementById('gameScreen').style.display = 'none';
+            const retro = document.getElementById('retroScene');
+            const walker = document.getElementById('walkingChars');
+            retro.style.display = 'block';
+
+            walker.classList.add('walking-anim');
+            walker.animate([{ left: '-20%' }, { left: '65%' }], { duration: 5000, fill: 'forwards' }).onfinish = () => {
+                walker.classList.remove('walking-anim');
+                setTimeout(() => {
+                    retro.animate([{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(8)', opacity: 0 }], { duration: 1500, fill: 'forwards' }).onfinish = runVideo;
+                }, 1000);
+            };
+        }
+
+        function runVideo() {
+            document.getElementById('retroScene').style.display = 'none';
+            const vCont = document.getElementById('videoContainer');
+            const video = document.getElementById('finishVideo');
+            vCont.style.display = 'block';
+            video.play();
+            
+            video.onended = () => {
+                showFinalCredits();
+            };
+        }
+
+        function showFinalCredits() {
+            const cr = document.getElementById('credits');
+            const spam = document.getElementById('spamContainer');
+            cr.style.display = 'flex';
+            
+            let longSpam = "";
+            for(let i=0; i<150; i++) longSpam += " поздрав🌚🍓🍒🌺🌹🌺🌹🌺";
+            spam.innerText = longSpam;
+            
+            cr.style.animation = "creditsMove 115s linear forwards";
+        }
+    </script>
+</body>
+</html>
